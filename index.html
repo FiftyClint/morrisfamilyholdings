@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morris Family Holdings</title>
+<meta name="description" content="Morris Family Holdings. Private holdings in energy, land, and infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-deep: #050B1A;
+    --navy: #0A1530;
+    --navy-panel: #0E1C3D;
+    --gold: #E8B54D;
+    --gold-bright: #F5D278;
+    --gold-deep: #B8862B;
+    --white: #F4F6FA;
+    --slate: #8B96AD;
+    --line: rgba(139, 150, 173, 0.16);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    background: radial-gradient(120% 140% at 80% 110%, #142650 0%, var(--navy) 42%, var(--navy-deep) 100%);
+    color: var(--white);
+    font-family: "Sora", system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* fine structural grid, barely visible */
+  .grid-field {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(90% 90% at 50% 40%, black 0%, transparent 78%);
+    -webkit-mask-image: radial-gradient(90% 90% at 50% 40%, black 0%, transparent 78%);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* gold light source, bottom right */
+  .beacon {
+    position: fixed;
+    right: -18vw;
+    bottom: -30vh;
+    width: 65vw;
+    height: 65vw;
+    min-width: 540px;
+    min-height: 540px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232, 181, 77, 0.22) 0%, rgba(232, 181, 77, 0.07) 35%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+    animation: beacon-pulse 10s ease-in-out infinite;
+  }
+
+  @keyframes beacon-pulse {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
+  }
+
+  /* the gold thread: a single fine diagonal light line */
+  .thread {
+    position: fixed;
+    top: 0;
+    right: 26vw;
+    width: 1px;
+    height: 100vh;
+    transform: rotate(24deg) translateY(-8vh);
+    transform-origin: top center;
+    background: linear-gradient(180deg, transparent 0%, var(--gold-deep) 30%, var(--gold-bright) 52%, var(--gold-deep) 72%, transparent 100%);
+    opacity: 0;
+    animation: thread-in 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .thread::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -3px;
+    width: 7px;
+    height: 100%;
+    background: inherit;
+    filter: blur(6px);
+    opacity: 0.7;
+  }
+
+  @keyframes thread-in {
+    from { opacity: 0; clip-path: inset(0 0 100% 0); }
+    to { opacity: 0.9; clip-path: inset(0 0 0 0); }
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem clamp(1.5rem, 6vw, 5rem);
+    position: relative;
+    z-index: 2;
+  }
+
+  .mark {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  /* monogram: three ascending gold strokes forming an abstract M */
+  .mark svg { display: block; }
+
+  .mark-name {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    color: var(--white);
+  }
+
+  .btn {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--navy-deep);
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    padding: 0.8rem 1.5rem;
+    border-radius: 100px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 0 0 rgba(232, 181, 77, 0);
+    display: inline-block;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232, 181, 77, 0.35);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--gold-bright);
+    outline-offset: 4px;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--slate);
+    padding: 0.8rem 0;
+    border-radius: 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .btn-ghost:hover {
+    color: var(--white);
+    transform: none;
+    box-shadow: none;
+    border-color: var(--gold);
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem clamp(1.5rem, 6vw, 5rem) 5rem;
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.2rem;
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 2.4rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: clamp(2.6rem, 7.2vw, 5.8rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    max-width: 14ch;
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+  }
+
+  h1 .lift {
+    background: linear-gradient(100deg, var(--gold-bright) 10%, var(--gold) 55%, var(--gold-deep) 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .descriptor {
+    margin-top: 2.4rem;
+    font-weight: 300;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.75;
+    color: var(--slate);
+    max-width: 44ch;
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.34s both;
+  }
+
+  .actions {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.46s both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.8rem clamp(1.5rem, 6vw, 5rem);
+    border-top: 1px solid var(--line);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    position: relative;
+    z-index: 2;
+  }
+
+  footer a {
+    color: var(--slate);
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  footer a:hover { color: var(--gold-bright); }
+  footer a:focus-visible {
+    outline: 2px solid var(--gold-bright);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .thread { right: 12vw; }
+    .actions { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+    footer { flex-direction: column; gap: 0.7rem; text-align: center; }
+    h1 { max-width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .beacon, .thread, .eyebrow, h1, .descriptor, .actions { animation: none; }
+    .thread { opacity: 0.9; clip-path: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-field" aria-hidden="true"></div>
+<div class="beacon" aria-hidden="true"></div>
+<div class="thread" aria-hidden="true"></div>
+
+<header>
+  <div class="mark">
+    <svg width="30" height="26" viewBox="0 0 30 26" fill="none" aria-hidden="true">
+      <path d="M2 24 L2 8" stroke="#E8B54D" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M11 24 L11 4" stroke="#F5D278" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M20 24 L20 8" stroke="#E8B54D" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M2 8 L11 4 L20 8 L28 5" stroke="#B8862B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="mark-name">MFH</span>
+  </div>
+  <a class="btn" href="mailto:info@morrisfamilyholdings.com">Contact</a>
+</header>
+
+<main>
+  <p class="eyebrow">Private Holdings</p>
+  <h1>Morris Family <span class="lift">Holdings</span></h1>
+  <p class="descriptor">
+    Building and backing companies in energy, land, and infrastructure. Privately held. Long horizon.
+  </p>
+  <div class="actions">
+    <a class="btn" href="mailto:info@morrisfamilyholdings.com">Get in touch</a>
+    <a class="btn btn-ghost" href="mailto:info@morrisfamilyholdings.com">info@morrisfamilyholdings.com</a>
+  </div>
+</main>
+
+<footer>
+  <span>&copy; 2026 Morris Family Holdings</span>
+  <a href="mailto:info@morrisfamilyholdings.com">info@morrisfamilyholdings.com</a>
+</footer>
+
+</body>
+</html>
